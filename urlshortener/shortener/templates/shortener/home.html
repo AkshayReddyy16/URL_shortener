@@ -1,0 +1,107 @@
+<!-- shortener/templates/shortener/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #72EDF2 10%, #5151E5 100%);
+            color: #fff;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            width: 400px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input[type="url"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+        input[type="url"]::placeholder {
+            color: #ddd;
+        }
+        input[type="url"]:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background: #fff;
+            color: #5151E5;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background: #72EDF2;
+            color: #fff;
+        }
+        .short-url {
+            margin-top: 20px;
+        }
+        .short-url a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .short-url a:hover {
+            background: rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>URL Shortener</h1>
+        <form method="post" onsubmit="return validateForm()">
+            {% csrf_token %}
+            <input type="url" name="long_url" id="long_url" placeholder="Enter the long URL" required>
+            <input type="submit" value="Shorten">
+        </form>
+        {% if short_url %}
+            <div class="short-url">
+                <p>Short URL: <a href="{{ short_url }}" target="_blank">{{ short_url }}</a></p>
+            </div>
+        {% endif %}
+    </div>
+    <script>
+        function validateForm() {
+            var longUrl = document.getElementById("long_url").value;
+            if (longUrl == "") {
+                alert("Please enter a URL.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>
